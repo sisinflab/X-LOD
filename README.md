@@ -12,6 +12,6 @@ Claudio Pomo and Giuseppe Scavo contributed to the development of X-LOD during t
 
 Contacts
 -------------
-Tommaso Di Noia, tommaso [dot] dinoia [at] poliba [dot] it
-Claudio Pomo, claudio [dot] pomo [at] gmail [dot] com
-Giuseppe Scavo, beppe [dot] scavo [at] gmail [dot] com
+Tommaso Di Noia, tommaso [dot] dinoia [at] poliba [dot] it  
+Claudio Pomo, claudio [dot] pomo [at] gmail [dot] com  
+Giuseppe Scavo, beppe [dot] scavo [at] gmail [dot] com  
