@@ -1,0 +1,13 @@
+<div ng-hide="loaded" class="row">
+	<div class="col-sm-10">
+		<input class="form-control" type="file" file-model="$parent.fileModel" >
+	</div>
+	<div class="pull-right col-sm-2" >
+		<a href="" class="btn btn-default btn-primary" ng-disabled="!$parent.fileModel" ng-click="upload()">
+			{{'add' | translate}}
+		</a>
+	</div>
+</div>
+	<div class="col-sm-12" ng-show="loaded">
+		<h2>{{'bulk-message' | translate}}</h2>
+	</div>

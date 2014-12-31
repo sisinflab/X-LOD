@@ -1,0 +1,73 @@
+<nav class="navbar navbar-inverse navbar-fixed-top pull-right" role="navigation">
+<div class="container-fluid navbar-container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ng-href="http://193.204.59.23/">Linked Open Data Matera</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div>
+      <ul class="nav navbar-nav navbar-right">
+        <li dropdown is-open="status.isopen">
+          <a class="dropdown-toggle" ><img src="images/{{'LANG-name' | translate}}.png">   {{'LANG' | translate}} <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-repeat="lang in languages" ng-click="setLang(lang.id-1,$event);" href=""><img src="images/{{lang.name}}.png">      {{lang.name}}</a></li>
+          </ul>
+       </li>
+
+        <li class="dropdown"  ng-show="authenticated" >
+           <a href="" class="dropdown-toggle">{{username}} <b class="caret"></b></a>
+          <ul class="dropdown-menu"> 
+            <li><a ng-click="logout()" href="">Logout</a></li>
+             <li><a tooltip="Coming soon" tooltip-placement="left" tooltip-animation="true">{{'activities' | translate}} </a></li>
+             <li><a href="#/new"><span class="glyphicon glyphicon-plus-sign"></span>   {{'add-entity'| translate}}</a></li>
+             <li><a href="#/bulk"><span class="glyphicon glyphicon-open"></span>   {{'store-bulk'| translate}}</a></li>
+          </ul>
+       </li>
+       
+
+       <li ng-hide="authenticated">
+        <a href="#/login">Login</a>
+      </li>
+      <li ng-hide="authenticated">
+        <a href="#/register"> {{ 'register' | translate }}</a>
+      </li>
+      </ul>
+  </div>    
+  </div>
+
+  </div><!-- /.container-fluid -->
+  </nav>
+  <nav ng-show="admin" class="affix navbar admin-navbar navbar-inverse navbar-static-side" role="navigation">
+            <div class="navbar-header">
+               <button type="button" class="admin-navbar-toggle navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="glyphicon glyphicon-wrench"></span>
+                </button>
+                <!-- <div class="navbar-brand brand-title transparent-bg">Admin Tools
+                </div> -->
+            </div>
+                <div class="admin-navbar-collapse collapse navbar-collapse sidebar-collapse" id="bs-example-navbar-collapse-2">
+                    <ul class="nav admin-li" id="side-menu">
+                      <li></li>
+                        <li>
+                            <a class="dash-control" href="#/admin/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a class="dash-control" href="#/admin/notifications"><i class="fa fa-fw"></i> Notifications</a>
+                        </li>
+                        
+                    </ul>
+                    <!-- /#side-menu -->
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+</nav>

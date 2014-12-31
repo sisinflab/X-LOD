@@ -1,0 +1,10 @@
+{
+	"name": "Entità Pinco Pallino",
+	"class":{"uri":"http://dbpedia.org/ontology/Church","label":"Chiesa"},
+	"props":[
+		{"prop_id":"1","prop_name": "Property 1","prop_uri":"http://dbpedia.it/prop1","value_name":"Value 1","value_uri":"Possible value URI"},
+		{"prop_id":"2","prop_name": "Property 2","prop_uri":"http://dbpedia.it/prop2","value_name":"Value 2","value_uri":"Possible value URI"},
+		{"prop_id":"3","prop_name": "Property 3","prop_uri":"http://dbpedia.it/prop3","value_name":"Value 3","value_uri":"Possible value URI"},
+		{"prop_id":"4","prop_name": "Property 4","prop_uri":"http://dbpedia.it/prop4","value_name":"Value 4","value_uri":"Possible value URI"}
+		]
+}

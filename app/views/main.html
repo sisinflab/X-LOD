@@ -1,0 +1,635 @@
+<div id="wrapper">
+	<div id="sidebar-wrapper">
+		<ul class="sidebar-nav">
+			<li >
+				<a class="hand" ng-click="scrollTo('type')">{{'type'|translate}}</a>
+			</li>
+			<li ng-repeat="prop in props.other | orderProperiesBy:false">
+				<a class="hand" ng-click="scrollTo(prop.prop_name)">{{prop.prop_name}}</a>
+			</li>
+			<li ng-show="(props.location.lonHasValue && props.location.latHasValue)">
+				<a class="hand" ng-click="scrollTo('location')">{{'location'|translate}}</a>
+			</li>
+			
+		</ul>
+	</div>
+
+	{{modifiedEntity}}
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header" ng-if="entity.title[0].value[0].val==null">{{entity.title[0].value[0]}}</h1>
+			<h1 class="page-header" ng-if="entity.title[0].value[0].val!=null">{{entity.title[0].value[0].val}}</h1>
+		</div>
+    </div>
+    <div class="row" ng-show="entityModified">
+    	<div class="col-md-10 col-sm-12 margin-bottom-10">
+			<blockquote>Premi Salva per registrare le tue modifiche</blockquote>
+		</div>
+		<div class="col-md-2 col-sm-12 margin-top-10 margin-bottom-10">
+			<div class="pull-right">
+				<button type="button" ng-click="update(modifiedEntity)" class="margin-bottom-10 btn btn-default btn-primary " >
+					<span class="glyphicon glyphicon-floppy-disk"></span> {{'save'|translate}}
+				</button>
+			</div>
+		</div>
+    </div>
+
+    <div  id="type" ng-controller="PropCtrl"  class="row">
+    	<div class=" panel panel-default col-lg-12">
+    		<div class=" panel-body ">
+				<div class=" panel-default col-lg-12" ng-hide="editMode">
+					<div class="panel-body">
+						<a href="{{props.type[0].value[0]}}">{{props.type[0].value[0]}}</a>
+					</div>
+					<div class="panel-footer custom-panel-footer">
+						<div class="pull-right">
+							<a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled" ng-click="toggleEdit()">
+								<span class="glyphicon glyphicon-edit">
+								</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class=" panel-default col-sm-12" ng-show="editMode">
+					<div class="col-sm-12 panel-default" >
+						<div class="panel-body">
+						<form name="newForm" class="form-horizontal" ng-submit="newType()" novalidate>
+							<div class="form-group"  ng-class="{ 'has-error' : newForm.class.$invalid && !newForm.class.$pristine }" >
+								<label for="classSelection"class="col-lg-2 control-label">{{'new-enty-class' | translate}}</label>
+								<div class="col-lg-8 ">
+					
+							        <input name="class" type="text" placeholder="{{props.type[0].value[0]}}" ng-model="type.selected" typeahead="classModel as classModel.label for classModel in classes | filter:$viewValue | limitTo:8" typeahead-editable="false" typeahead-template-url="views/class_list_item_template.html" class="form-control" ng-hide="mobileView" autocomplete="off">
+							        
+							        <select name="class" class="form-control" ng-model="type.selected" ng-options="classModel.label for classModel in classes" ng-show="mobileView" required>
+							        	<!-- <option value="" disabled>{{'new-enty-class' | translate}}</option> -->
+							        </select>
+								</div>
+								
+							</div>
+						<div class="panel-footer custom-panel-footer">
+							<div ng-show="newForm.name.$invalid && !newForm.name.$pristine" class="col-xs-8 alert alert-dismissable alert-danger custom-danger">
+							  <strong>{{'LOGIN-FAIL-SWEAR' | translate}}</strong>{{'new-enty-name-error' | translate}}
+							</div>
+							<div ng-show="newForm.class.$invalid && !newForm.class.$pristine" class="col-xs-8 alert alert-dismissable alert-danger custom-danger">
+							  <strong>{{'new-enty-class-error' | translate}}</strong>
+							</div>
+							<div class="pull-right">
+								
+								<button type="submit" class="btn btn-default btn-primary " ng-disabled="loading || newForm.$invalid">
+									{{'save' | translate}}
+								</button>
+								<a href="" class="btn btn-default " ng-click="toggleEdit()" ng-disabled="loading ">
+									{{'cancel' | translate}}
+								</a>
+							</div>
+							<circle-spinner class="circle-spinner-custom" ng-show="loading"></circle-spinner>
+						</div>
+						</form>
+						</div>
+					
+				
+					</div>
+				</div>	
+			</div>	
+		</div>
+
+	</div>
+    <div class="row" id="uno" ng-controller="PropCtrl">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="row-fluid">
+
+					<!-- <div ng-show="OWLoadingFailed" class="col-sm-8 alert alert-dismissable alert-danger custom-danger">
+						<strong>{{'LOGIN-FAIL-SWEAR' | translate}} </strong>
+					</div> -->
+					<div class="col-sm-4 panel-default"  ng-hide="OWLoadingFailed">
+						<div class="panel-heading custom-panel-heading">
+							{{'prop-sel' | translate}}
+						</div>
+						<div class="panel-body">
+							<form class="form" >
+								<div class="form-group">
+									<input name="OWLprops" type="text" placeholder="{{'prop' | translate}}" ng-model="added" typeahead="prop as prop.prop_name for prop in OWL.props | filter:$viewValue | limitTo:8" typeahead-editable="false" typeahead-template-url="views/prop_list_item_template.html" class="form-control" ng-hide="mobileView || OWLoading || OWLoadingFailed">
+							        <select name="OWLprops" class="form-control" ng-model="added" ng-options="prop as prop.prop_name for prop in OWL.props" ng-show="mobileView && !OWLoading && !OWLoadingFailed" required>
+							        	<!-- <option value="" disabled>{{'new-enty-class' | translate}}</option> -->
+							        </select>
+							        <!--<p>range: {{addedProperty.prop_obj[0].range}}</p>
+							        <p>added:{{added}}</p>-->
+							        <circle-spinner class="circle-spinner-custom" ng-show="OWLoading"></circle-spinner>
+							        <!-- span ng-show="OWLoading" class="glyphicon glyphicon-refresh spin"></span> -->
+							        
+								</div>
+							</form>
+						</div>
+						
+					</div>
+					<div class="col-sm-8 panel-default" ng-hide="OWLoadingFailed || selectDisabled" >
+						<div class="panel-heading custom-panel-heading">
+							{{'prop-val' | translate}}
+						</div>
+						<div class="panel-body"> 
+							<form name="valueForm" class="form" novalidate>
+
+								<div ng-switch on="addedProperty.prop_obj[0].range">
+								<div ng-switch-default  class="form-group">
+										<div ng-hide="isEnumeratedClass(addedProperty.prop_obj[0].range)" class="alert alert-dismissable alert-danger">{{'range-unknown'|translate}}
+										  <ui-select id="typeSelect" ng-disabled="selectDisabled" ng-model="range.selected" theme="bootstrap" style="width: 300px;">
+										    <ui-select-match placeholder="Select datatype...">{{$select.selected.label}}</ui-select-match>
+										    <ui-select-choices repeat="type in datatypes | filter: $select.search">
+										      <div style="width: 260px;" ng-bind-html="type.label | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+										  {{range.selected}}
+										  </div>
+										  <div ng-show="enumerated">
+										  <ui-select id="typeSelect" ng-model="added.propValue" theme="bootstrap" style="width: 300px;">
+										    <ui-select-match placeholder="Select datatype...">{{$select.selected}}</ui-select-match>
+										    <ui-select-choices repeat="type in arrayOfRanges | filter: $select.search">
+										      <div style="width: 260px;" ng-bind-html="type | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+										  </div>
+								</div>
+								<div ng-switch-when="xsd:decimal" class="form-group"  ng-class=" { 'has-error' : valueForm.decimalValue.$invalid || valueForm.decimalValue.$pristine }">
+									<input decimal-check placeholder="Decimal" name="decimalValue" ng-model="added.propValue" class="form-control">
+								</div>
+								<div ng-switch-when="http://www.w3.org/2001/XMLSchema#string" class="form-group" ng-class="  { 'has-error' : valueForm.stringValue.$invalid || !(!!valueForm.langSelector  && !!addedT.propValue)}">
+								    <div class="col-xs-4 margin-bottom-10">
+										<label for="langSelector">{{'language'|translate}}</label>
+									    <select name="langSelector"  ng-model="added.lang" class="form-control" ng-options="lang as lang.label for lang in stringLangs">
+									     </select>
+									</div>
+									<div class="col-xs-8">
+									     <textarea name="stringValue" string-check ng-model="added.propValue" id="" class="form-control" rows="3" ></textarea>
+									</div>
+								</div>
+								<div ng-switch-when="uri" class="form-group"  ng-class="  { 'has-error' : valueForm.uriValue.$invalid || valueForm.uriValue.$pristine }">
+									<input type="text" name="uriValue" placeholder="{{addedProperty.prop_obj[0].value[0]}}"  ng-model="added.propValue" typeahead="suggestions.uri as suggestions.label for suggestions in getQueryText($viewValue)" typeahead-on-select="onUriSelect(addedProperty.prop_name,$item, $model, added.prop_obj[0].uri)" typeahead-min-length="3" typeahead-loading="loadingProp" class="form-control">
+								</div>
+								<div ng-switch-when="xsd:float" class="form-group"  ng-class="  { 'has-error' : valueForm.floatValue.$invalid || valueForm.floatValue.$pristine }">
+									<input float-check placeholder="Float" name="floatValue" ng-model="added.propValue" class="form-control">
+								</div>
+								<div ng-switch-when="xsd:integer" class="form-group"  ng-class="  { 'has-error' : valueForm.integerValue.$invalid || valueForm.integerValue.$pristine }">
+									<input integer-check placeholder="Integer" name="integerValue" ng-model="added.propValue" class="form-control">
+								</div>
+								<div ng-switch-when="xsd:boolean" class="form-group" ng-class="  { 'has-error' : valueForm.decimalValue.$invalid || valueForm.decimalValue.$pristine }" >
+									Boolean
+							         <div class="btn-group">
+								        <label class="btn btn-primary" ng-model="added.propValue" btn-radio="true" uncheckable>True</label>
+								        <label class="btn btn-primary" ng-model="added.propValue" btn-radio="false" uncheckable>False</label>
+								    </div>
+								    {{radioModel}}
+								</div>
+								<!-- <div ng-switch-when="xsd:duration" class="form-group"  >
+								    <p>Duration</p>
+								    <div>
+								    	<input type="number" name="durationYears" ng-model="year" min="0" max="99" >
+								    	<input type="number" name="durationMonths" ng-model="month" min="1" max="12" >
+								    	<input type="number" name="durationDays" ng-model="day" min="1" max="31" >
+								    	<input type="number" name="durationHours" ng-model="hour" min="0" max="24" >
+								    	<input type="number" name="durationMinutes" ng-model="minute" min="0" max="60" >
+								    	<input type="number" name="durationSeconds" ng-model="second" min="0" max="60" >
+								    	<span class="help-block">Year</span>
+								    	<span class="help-block">Month</span>
+								    </div>
+								</div> -->
+								<div ng-switch-when="xsd:time" class="form-group">
+								    <timepicker ng-model="time" ng-change="" hour-step="1" minute-step="5" show-meridian="ismeridian"></timepicker>
+								</div>
+								<div ng-switch-when="xsd:date" class="form-group" ng-class="  { 'has-error' : valueForm.dateValue.$invalid || valueForm.dateValues.$pristine }">
+								    <div class="col-md-6 input-group">
+								    	<input type="text" name="dateValue" class="form-control" datepicker-popup="dd.MM.yyyy" ng-model="added.propValue" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+
+	              						<span class="input-group-addon" ng-click="openCalendar($event)">
+	              							<i class="glyphicon glyphicon-calendar"></i>
+	              						</span>
+								   
+								     </div>
+								</div>
+								<span class="margin-top-10" ng-show="loadingNewProp"  >
+	              					<circle-spinner  class="circle-spinner-custom"></circle-spinner>
+	              				</span>
+	              				<div ng-switch-when="location">
+	              				</div>
+	              				<div ng-show="addedProperty.prop_obj[0].range=='location'" class="form-group">
+
+	              				<h4>{{'location'|translate}}</h4>
+	              				<div class="well">
+		              				<div class="map" id="newmap" >
+		              				</div>
+	              				</div>
+	              				<tabset justified="true">
+	    							<tab class="hand" heading="{{'by-address'|translate}}">
+	    								<div class="margin-top-10">
+	    									<label for="locAddress" class="control-label">{{'search'|translate}} {{'address'|translate}}</label>
+										    <input id="locAddress"type="text" ng-model="$parent.asyncSelected" placeholder="{{'address'|translate}}" typeahead="address as address.display_name for address in getLocation($viewValue)" typeahead-loading="loadingLocations" class="form-control" typeahead-wait-ms="800" typeahead-on-select="onLocationSelect($item, $model, $label,'newmap')">
+										    
+									    </div>
+									    <span ng-show="loadingLocations"  >
+	              							<circle-spinner  class="circle-spinner-custom"></circle-spinner>
+	              						</span>
+								    </tab>
+								    <tab  class="hand" heading="{{'by-coordinate'|translate}}">
+								    	<div class="margin-top-10">
+										    <div class="col-sm-6 form-group" ng-class=" { 'has-error' : valueForm.locLatitude.$invalid && !valueForm.locLatitude.$pristine }">
+										    	<label for="locLatitude" class="control-label">{{'latitude'|translate}}</label>
+										    	<input id="locLatitude" name="locLatitude" decimal-check name="locLatitude" ng-model="$parent.newmap.latitude" class="form-control" >
+										    </div>
+										     <div class="col-sm-6 form-group" ng-class=" { 'has-error' : valueForm.locLongitude.$invalid && !valueForm.locLongitude.$pristine }">
+										     	<label for="locLongitude" class=" control-label">{{'longitude'|translate}}</label>
+										    	<input id="locLongitude"  name="locLongitude" decimal-check name="locLongitude" ng-model="$parent.newmap.longitude" class="form-control">
+										    </div>
+										    <a href="" class="btn btn-default btn-default btn-sm form-group pull-right" ng-disabled="editDisabled || valueForm.locLongitude.$invalid || valueForm.locLongitude.$pristine || valueForm.locLatitude.$invalid || valueForm.locLatitude.$pristine" ng-click="setLocation('newmap')">
+										    <div class="col-sm-2">
+										    	<span class="glyphicon glyphicon-globe">
+												</span>
+												{{'map'|translate}}
+										    </div>
+												
+											</a>
+									    </div>
+								    </tab>
+								</tabset>
+								</div>
+								</div>
+
+							</form>
+						</div>
+						<div class="panel-footer custom-panel-footer">
+							<div class="pull-right">
+								<a href="" class="btn btn-default btn-primary " ng-click="add(added.prop_name)" ng-disabled=" selectDisabled || valueForm.$invalid || valueForm.$pristine">
+									{{'add'|translate}}
+								</a>
+								<a href="" class="btn btn-default btn-default " ng-click="resetAdd()" ng-disabled="selectDisabled || valueForm.$invalid || OWLoadingFailed || OWLoading">
+									{{'reset'|translate}}
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+				</div>
+				</div>
+    <div class="row animate-repeat" ng-controller="PropCtrl" ng-repeat="prop in props.other | orderProperiesBy:false"  id="{{prop.prop_name}}">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="row-fluid">
+					<div class="col-sm-4 panel-default" style="height:100%">
+						<div class="panel-body"> 
+							<h5>
+								<strong>{{prop.prop_name}}</strong>
+							</h5>
+							<small>
+								{{prop.prop_obj[0].uri}}
+							</small>
+						</div>
+					</div>
+
+					<!-- string range -->
+
+					<div ng-switch on="prop.prop_obj[0].range">
+					<div id="string" class="col-sm-8 " ng-switch-when="http://www.w3.org/2001/XMLSchema#string" >
+						<div ng-controller="TranslationCtrl" ng-repeat="item in prop.prop_obj[0].value">
+							<div class="panel-default" ng-hide="editMode">
+								<div class="panel-body" > 
+									<h5 ng-show="item.val != null">
+										{{item.val}}
+									</h5>
+									<h5 ng-show="item.val == null">
+										{{item}}
+									</h5>
+									<small class="pull-right" ng-show="item.lang != null">
+										{{item.lang}}
+									</small>
+								</div>
+								<div class="panel-footer custom-panel-footer">
+									<div class="pull-right">
+										<a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled" ng-click="toggleEdit()">
+											<span class="glyphicon glyphicon-edit">
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="panel-default" ng-show="editMode">
+								<div class="panel-heading custom-panel-heading">
+								{{'prop-val' | translate}}
+								</div>
+								<div class="panel-body"> 
+									<form class="form" >
+										<div class="form-group">
+											<textarea ng-model="item.val" class="form-control" rows="5" >{{item.val}}</textarea>
+										</div>
+									</form>
+								</div>
+								<div class="panel-footer custom-panel-footer">
+									<div class="pull-right">
+										<a href="" class="btn btn-default btn-primary " ng-click="save(prop.prop_name)">
+											{{'save' | translate}}
+										</a>
+										<a href="" class="btn btn-default " ng-click="toggleEdit()">
+											{{'cancel' | translate}}
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div  class="col-sm-12 panel-default well pull-right margin-top-10" ng-show="filtered.length>0">
+							<div class="panel-heading custom-panel-heading">
+
+								{{'add-language'|translate}}
+							</div>
+							<div class="panel-body">
+								<div class="col-xs-4 margin-bottom-10">
+									<label for="langSelector">{{'language'|translate}}</label>
+								    <select name="langSelector" ng-model="addedT.lang" class="form-control" ng-options="lang as lang.label for lang in filtered = (stringLangs | translFilter:prop)">
+								    	<option value="">Select an option</option>
+								     </select>
+								</div>
+								<div class="col-xs-8">
+								     <textarea name="stringValue" string-check ng-model="addedT.propValue" id="" class="form-control" rows="3" ></textarea>
+								</div>
+							</div>
+							<div class="panel-footer custom-panel-footer">
+									<div class="pull-right">
+										<a href="" class="btn btn-default btn-primary " ng-disabled="!(!!addedT.lang && !!addedT.propValue)" ng-click="addTranslation(prop.prop_name)">
+											{{'save' | translate}}
+										</a>
+										<a href="" class="btn btn-default " ng-click="resetTranslation()">
+											{{'reset' | translate}}
+										</a>
+									</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="string" class="col-sm-8 " ng-switch-when="http://www.w3.org/2000/01/rdf-schema#Literal" >
+						<div ng-controller="TranslationCtrl" ng-repeat="item in prop.prop_obj[0].value">
+							<div class="panel-default" ng-hide="editMode">
+								<div class="panel-body" > 
+									<h5 ng-show="item.val != null">
+										{{item.val}}
+									</h5>
+									<h5 ng-show="item.val == null">
+										{{item}}
+									</h5>
+									<small class="pull-right" ng-show="item.lang != null">
+										{{item.lang}}
+									</small>
+								</div>
+								<div class="panel-footer custom-panel-footer">
+									<div class="pull-right">
+										<a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled" ng-click="toggleEdit()">
+											<span class="glyphicon glyphicon-edit">
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="panel-default" ng-show="editMode">
+								<div class="panel-heading custom-panel-heading">
+								{{'prop-val' | translate}}
+								</div>
+								<div class="panel-body"> 
+									<form class="form" >
+										<div class="form-group">
+											<textarea ng-model="item.val" class="form-control" rows="5" >{{item.val}}</textarea>
+										</div>
+									</form>
+								</div>
+								<div class="panel-footer custom-panel-footer">
+									<div class="pull-right">
+										<a href="" class="btn btn-default btn-primary " ng-click="save(prop.prop_name)">
+											{{'save' | translate}}
+										</a>
+										<a href="" class="btn btn-default " ng-click="toggleEdit()">
+											{{'cancel' | translate}}
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div  class="col-sm-12 panel-default well pull-right margin-top-10" ng-show="filtered.length>0">
+							<div class="panel-heading custom-panel-heading">
+
+								{{'add-language'|translate}}
+							</div>
+							<div class="panel-body">
+								<div class="col-xs-4 margin-bottom-10">
+									<label for="langSelector">{{'language'|translate}}</label>
+								    <select name="langSelector" ng-model="addedT.lang" class="form-control" ng-options="lang as lang.label for lang in filtered = (stringLangs | translFilter:prop)">
+								    	<option value="">Select an option</option>
+								     </select>
+								</div>
+								<div class="col-xs-8">
+								     <textarea name="stringValue" string-check ng-model="addedT.propValue" id="" class="form-control" rows="3" ></textarea>
+								</div>
+							</div>
+							<div class="panel-footer custom-panel-footer">
+									<div class="pull-right">
+										<a href="" class="btn btn-default btn-primary " ng-disabled="!(!!addedT.lang && !!addedT.propValue)" ng-click="addTranslation(prop.prop_name)">
+											{{'save' | translate}}
+										</a>
+										<a href="" class="btn btn-default " ng-click="resetTranslation()">
+											{{'reset' | translate}}
+										</a>
+									</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- non string range -->
+
+					<div id="nonString" ng-switch-default class="col-sm-8 panel-default" ng-hide="editModeNoString">
+						<div class="panel-body"> 
+							<h5 ng-repeat="val in prop.prop_obj[0].value" >
+								{{val}}
+							</h5>
+							<!-- <small>
+								{{prop.value_uri}}
+							</small> -->
+						</div>
+						
+						<div class="panel-footer custom-panel-footer">
+							<div class="pull-right">
+								<a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled || addingDisabled" ng-click="toggleEdit('noString',prop.prop_obj)">
+									<span class="glyphicon glyphicon-edit">
+									</span>
+								</a>
+								<a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled || addingDisabled" ng-click="toggleEditAdd('noString',prop.prop_obj)">
+									<span class="glyphicon glyphicon-plus">
+									</span>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-8 panel-default" ng-show="editModeNoString">
+						<div class="panel-heading custom-panel-heading">
+							{{'prop-val' | translate}}
+						</div>
+						<div class="panel-body"> 
+							<form name="propForm" class="form">
+								<div class="form-group">
+									<div ng-hide="uri || addModeNoString">
+										<div ng-repeat="value in prop.prop_obj[0].value">
+											<input  type="text" placeholder="{{value}}" ng-model="modelUri" typeahead="suggestions.uri as suggestions.label for suggestions in getQueryText($viewValue)" typeahead-min-length="3" typeahead-editable="false" typeahead-on-select="onUriSelect(prop.prop_name,$item, $model, prop.prop_obj[0].range,value)" typeahead-loading="loadingProp" class="form-control">
+									 	</div>
+									 </div>	
+									 <div ng-show="enumerated">
+										  <ui-select id="typeSelect" ng-model="prop.prop_obj[0].value[0]" theme="bootstrap" style="width: 300px;">
+										    <ui-select-match placeholder="elSect value...">{{$select.selected}}</ui-select-match>
+										    <ui-select-choices repeat="type in arrayOfRanges | filter: $select.search">
+										      <div style="width: 260px;" ng-bind-html="type | highlight: $select.search"></div>
+										    </ui-select-choices>
+										  </ui-select>
+									 </div>
+									 <div ng-show="imageProp">
+									 	<h5 ng-repeat="val in prop.prop_obj[0].value" >
+											{{val}}
+										</h5>
+									 <tabset justified="true">
+	    								<tab class="hand" heading="{{'Load File'|translate}}">
+	    									<div class="col-sm-10">
+	    										<input class="form-control" type="file" file-model="$parent.fileModel" >
+	    									</div>
+											<div class="pull-right col-sm-2">
+												<a href="" class="btn btn-default btn-primary" ng-disabled="!$parent.fileModel" ng-click="imageUsage()">
+													{{'add' | translate}}
+												</a>
+											</div>
+								    	</tab>
+								    	<tab  class="hand" heading="{{'URL'|translate}}">
+								    		<div class="col-sm-10">
+								    			<input type="url" name="imgUrl" ng-model="$parent.urlImage" class="form-control">
+								    		</div>
+								    		<div class="pull-right col-sm-2">
+												<a href="" class="btn btn-default btn-primary" ng-disabled="propForm.imgUrl.$invalid || propForm.imgUrl.$pristine || propForm.imgUrl.$error.url" ng-click="addImage()">
+													{{'add' | translate}}
+												</a>
+											</div>
+								    	</tab>
+									</tabset>
+									 	
+										
+									 </div>
+									 <div ng-show="addModeNoString" >
+									 	<h5 ng-repeat="val in prop.prop_obj[0].value" >
+											{{val}}
+										</h5>
+									 	<input type="url" ng-model="$parent.newUri" class="form-control">
+									 </div>
+									 <span ng-show="loadingProp"  >
+	              							<circle-spinner  class="circle-spinner-custom"></circle-spinner>
+	              					 </span>
+
+								</div>
+							</form>
+						</div>
+						<div class="panel-footer custom-panel-footer">
+							<div class="pull-right">
+								<a href="" class="btn btn-default btn-primary" ng-disabled="propForm.$invalid" ng-click="save(prop.prop_name)">
+									{{'save' | translate}}
+								</a>
+								<a href="" class="btn btn-default " ng-click="toggleEdit('noString')">
+									{{'cancel' | translate}}
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+<!--
+			end row
+-->
+			</div>
+		</div>
+    </div>
+    </div>
+    <div class="row" ng-controller="PropCtrl"  id="location" ng-show="props.location.lonHasValue && props.location.latHasValue">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="row-fluid">
+					<div class="col-sm-4 panel-default">
+						<div class="panel-body"> 
+							<h5>
+								<strong>{{'location'|translate}}</strong>
+
+							</h5>
+						</div>
+
+						
+					</div>
+					<div class="col-sm-8 panel-default">
+						<div class="well">
+							<!-- <div class="map" id="showmap" > -->
+		              					<leaflet class="map" center="center" markers="markers" layers="layers" defaults="defaults"></leaflet>
+		              				<!--</div>-->
+		              	</div>
+						<div class="panel-footer custom-panel-footer" ng-hide="locationEditMode">
+							<div class="pull-right">
+								<a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled" ng-click="toggleLocationEdit()">
+									<span class="glyphicon glyphicon-edit">
+									</span>
+								</a>
+							</div>
+						</div>
+						<form name="locForm" ng-show="locationEditMode">
+						<div class="form-group">
+	              				<tabset justified="true">
+	    							<tab class="hand" heading="{{'by-address'|translate}}">
+	    								<div class="margin-top-10">
+	    									<label for="locAddress" class="control-label">{{'search'|translate}} {{'address'|translate}}</label>
+										    <input id="locAddress"type="text" ng-model="$scope.asyncSelected.display_name" placeholder="{{'address'|translate}}" typeahead="address as address.display_name for address in getLocation($viewValue)" typeahead-loading="loadingLocations" class="form-control" typeahead-wait-ms="800" typeahead-on-select="onLocationSelect($item, $model, $label,'map')">
+										    
+									    </div>
+									    <span ng-show="loadingLocations"  >
+	              							<circle-spinner  class="circle-spinner-custom"></circle-spinner>
+	              						</span>
+								    </tab>
+								    <tab  class="hand" heading="{{'by-coordinates'|translate}}">
+								    	<div class="col-lg-12 margin-top-10">
+										    <div class="col-sm-6 form-group" ng-class=" { 'has-error' : locForm.locLatitude.$invalid && !locForm.locLatitude.$pristine }">
+										    	<label for="locLatitude" class="control-label">{{'latitude'|translate}}</label>
+										    	<input id="locLatitude" type="number" step="any" decimal-check name="locLatitude" ng-model="$parent.markers.marker.lat" class="form-control" required>
+										    </div>
+										    <div class="col-sm-6 form-group" ng-class=" { 'has-error' : locForm.locLongitude.$invalid && !locForm.locLongitude.$pristine }">
+										     	<label for="locLongitude" class=" control-label">{{'longitude'|translate}}</label>
+										    	<input id="locLongitude" type="number" step="any" decimal-check name="locLongitude" ng-model="$parent.markers.marker.lng" class="form-control"required>
+										    </div>
+										    
+										   	<div class="col-sm-10">{{'map-button-desc'|translate}}</div>
+										   	<div class="col-sm-2">
+											    <a href="" class="btn btn-default btn-default btn-sm form-group pull-right" ng-disabled=" (locForm.locLongitude.$invalid && !locForm.locLongitude.$pristine) || (locForm.locLatitude.$invalid && !locForm.locLatitude.$pristine)" ng-click="setLocation('map')">
+											    <div class="">
+											    	<span class="glyphicon glyphicon-globe">
+													</span>
+													{{'map'|translate}}
+											    </div>
+													
+												</a>
+											</div>
+										</div>
+								    </tab>
+								</tabset>
+							</div>
+									<div class="col-lg-12 panel-footer custom-panel-footer">
+										<div class="pull-right">
+											<a href="" class="btn btn-default btn-primary " ng-click="saveLocation('map')">
+												{{'save' | translate}}
+											</a>
+											<a href="" class="btn btn-default " ng-click="toggleLocationEdit()">
+												{{'cancel' | translate}}
+											</a>
+										</div>
+									</div>
+						<form>
+					</div>
+
+				</div>
+<!--
+			end row
+-->
+			</div>
+		</div>
+    </div>
+	
+</div>

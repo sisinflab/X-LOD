@@ -1,0 +1,351 @@
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 100%;
+}
+html{
+  height: 100%;
+}
+
+
+ .map {
+  width:100% !important;
+  height:350px !important;
+  min-height: 300px; 
+
+}
+.top-buffer { margin-top:2em; }
+
+.double-bounce1, .double-bounce2 {
+
+  background-color: #B81E0D !important;
+  height: 300%!important;
+  width: 300% !important;
+  position: absolute;
+  left: 50% !important;
+  right: -50% !important;
+}
+
+.spinning-dots-spinner{
+  margin: auto  !important;
+}
+
+.spinner-container > div{
+  background-color: #B81E0D !important;
+}
+
+
+.wave-spinner{
+  width: 200px !important;
+}
+.wave-spinner > div{
+  height: 300% !important;
+  width: 12px !important;
+  background-color: white !important;
+  opacity: 0.8 !important;
+}
+
+
+
+.page-loading{
+  z-index: 9999;
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.big-wheel{
+  color: white;
+  top: 45%;
+  left: 45%;
+  font-size: 10em;
+}
+
+div.button{
+
+/*
+ margin:0 auto;
+*/
+ display: inline-block;
+}
+
+.margin-top-10{
+  margin-top: 10px !important;
+}
+
+.margin-bottom-10{
+  margin-bottom: 10px !important;
+}
+
+.panel-default > .panel-heading-accordion{
+  border-color:  #474949 !important;
+  border-bottom-style:  solid;
+  /*background-color: transparent;*/
+  border-color:  #474949 !important;
+  /*border-bottom-width: 1px;*/
+}
+
+.panel-accordion .panel-body-internal{
+  border-top-width: 0px !important;
+}
+
+.panel-accordion .custom-panel-footer{
+  border-top-width: 1px !important;
+  border-top-style: solid !important;
+  border-top-color: #DDDDDD !important;
+}
+
+.accordion-toggle{
+  cursor: pointer;
+}
+
+.panel-accordion{
+  overflow: visible !important;
+   
+}
+
+.confirmed > .panel-heading-accordion{
+  background-color: green !important;
+}
+
+.rejected > .panel-heading-accordion{
+  background-color: red !important;
+}
+
+.pending > .panel-heading-accordion{
+  background-color: #E3E3E3;
+}
+
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.spin{
+     -webkit-transform-origin: 50% 44%;
+     transform-origin:50% 44%;
+     -ms-transform-origin:50% 44%; /* IE 9 */
+     -webkit-animation: spin 1s infinite linear;
+     -moz-animation: spin 1s infinite linear;
+     -o-animation: spin 1s infinite linear;
+     animation: spin 1s infinite linear;
+}
+
+.custom-danger{
+  margin-bottom:0px;
+  padding:8px !important;
+
+}
+
+.hand{
+  cursor: pointer;
+}
+
+.dropdown{
+  cursor: pointer;
+}
+.nav .dropdown-toggle{
+  min-height: 40px;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+/*
+    float: none;
+*/
+  margin-top:25px;
+    height:100%;
+}
+
+.add-on{
+z-index:9999;
+}
+.form-control-custom{
+width:100%;
+}
+
+.custom-caret{
+width:14px;
+
+}
+
+div.button-container{
+  display: table-cell;
+  vertical-align: middle;
+  min-width:50px;
+  min-height: 50px;
+  text-align:center;
+  
+}
+
+.custom-panel-footer,.custom-panel-heading{
+  background-color: rgba(255,255,255,0) !important;
+}
+
+
+div.button-container:hover{
+    cursor: hand;
+    cursor: pointer;
+    opacity: .9;
+    background: rgba(255,75,75,0.2);
+
+}
+
+.container{
+  margin-top:40px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 800px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+
+  
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+   Remove the bottom border on the jumbotron for visual effect 
+  .jumbotron {
+    border-bottom: 0;
+  }
+
+
+  .navbar-container{
+    margin: 0 100px !important;
+  }
+}
+
+@media screen and (max-width:800px){
+  .vcenter {
+  margin-top:0px;
+  }
+}
+
+
+ /* Animation */
+    .animate-repeat.ng-move,
+    .animate-repeat.ng-enter,
+    .animate-repeat.ng-leave {
+       -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+        position: relative;
+        display: block;
+    }
+
+    .animate-repeat.ng-leave.ng-leave-active,
+    .animate-repeat.ng-move,
+    .animate-repeat.ng-enter {
+        -webkit-transform: scaleY(0);
+        -moz-transform: scaleY(0);
+        -ms-transform: scaleY(0);
+        -o-transform: scaleY(0);
+        transform: scaleY(0);
+        height: 0px;
+        opacity: 0;
+    }
+
+    .animate-repeat.ng-leave,
+    .animate-repeat.ng-move.ng-move-active,
+    .animate-repeat.ng-enter.ng-enter-active {
+       -webkit-transform: scaleY(1);
+        -moz-transform: scaleY(1);
+        -ms-transform: scaleY(1);
+        -o-transform: scaleY(1);
+        transform: scaleY(1);
+        height: 30px;
+        opacity: 1;
+   }

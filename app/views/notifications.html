@@ -1,0 +1,257 @@
+<div id="page-wrapper">
+	<div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Notifications</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+    </div>
+    <div class="row">
+        <div ng-controller="AccordionCtrl" class="col-lg-12">
+              <accordion  close-others="oneAtATime">
+                <accordion-group ng-repeat="item in items" class="margin-bottom-10" is-open="open" ng-class="{'panel-success': item.confirmed && !item.rejected, 'panel-primary': item.rejected && !item.confirmed, 'pending': !item.rejected && !item.confirmed}">
+                    <accordion-heading>
+                       <div ng-switch on="item.isEntity">
+                            <!-- entity or property name -->
+                            <div ng-switch-when="true">
+                                Entità - {{item.name}}
+                                <div class="pull-right">
+                                   <i class="glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !$parent.open}"></i>
+                               </div>
+                            </div>
+                            <div ng-switch-when="false">
+                                Proprietà - {{item.labrl}}
+                                <div class="pull-right">
+                                   <i class="glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !$parent.open}"></i>
+                               </div>
+                            </div>
+                       </div>
+                    </accordion-heading>
+                    <div ng-controller="ItemCtrl" ng-switch on="item.isEntity" class="col-sm-12 margin-bottom-10">
+                        <!-- entity name and URI -->
+                        <div ng-switch-when="true" class=" panel-default">
+                            <div class="panel-body panel-body-internal">
+                                <!-- entity !edit mode -->
+                                <div ng-hide="editMode">
+                                    <div class="col-sm-6">
+                                        <h5>
+                                            {{item.name}}
+                                        </h5>
+                                        <small>
+                                            {{item.uri}}
+                                        </small>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h5>
+                                            {{item.class.labrl}}
+                                        </h5>
+                                        <small>
+                                            {{item.class.uri}}
+                                        </small>
+                                    </div>
+                                </div>
+                                <!-- entity edit mode -->
+                                <div ng-show="editMode">
+                                    <div class="col-sm-6" >
+                                        <div class="panel-heading custom-panel-heading">
+                                            {{'new-enty-class' | translate}}
+                                        </div>
+                                        <div class="panel-body">
+                                            <!-- <ui-select class="" ng-model="item.selected.class" theme="bootstrap">
+                                                <ui-select-match placeholder="Select or search a class in the list...">{{$select.selected.labrl}}</ui-select-match>
+                                                <ui-select-choices repeat="class in classes | filter: $select.search">
+                                                  <div ng-bind-html="class.labrl"></div>
+                                                  <small ng-bind-html="class.uri"></small>
+                                                </ui-select-choices>
+                                            </ui-select> -->
+
+                                            <input name="class" type="text" placeholder="{{'new-enty-class' | translate}}" ng-model="item.selected.class" typeahead="class as class.labrl for class in classes | filter:$viewValue | limitTo:8" typeahead-editable="false" typeahead-template-url="views/class_list_item_template.html" class="form-control" ng-hide="mobileView">
+                                    
+                                            <select name="class" class="form-control" ng-model="item.selected.class" ng-options="class.labrl for class in classes" ng-show="mobileView" required>
+                                                <!-- <option value="" disabled>{{'new-enty-class' | translate}}</option> -->
+                                            </select>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="col-sm-6" ng-show="editMode" >
+                                        <div class="panel-heading custom-panel-heading">
+                                            {{'new-enty-name' | translate}}
+                                        </div>
+                                        <div class="panel-body"> 
+                                            <form class="form" >
+                                                <div class="form-group">
+                                                      <input class="form-control" ng-model="item.selected.name" id="focusedInput" value="{{item.selected.name}}" type="text">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-footer custom-panel-footer">
+                                            <div class="pull-right">
+                                                <a href="" class="btn btn-default btn-primary " ng-click="saveChanges($index)">
+                                                    {{'save' | translate}}
+                                                </a>
+                                                <a href="" class="btn btn-default btn-default " ng-click="toggleEditMode()">
+                                                    {{'cancel' | translate}}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- entity edit mode end -->
+                            <!-- edit accept and reject buttons -->
+                            <div class="panel-footer custom-panel-footer">
+                                <div class="pull-right">
+                                    <span ng-show="loading" class="glyphicon glyphicon-refresh spin"></span>
+                                    <a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled" ng-click="toggleEditMode()">
+                                        <span class="glyphicon glyphicon-edit">
+                                        </span>
+                                    </a>
+                                    <a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled" ng-click="confirm($index)">
+                                        <span class="glyphicon glyphicon-ok">
+                                        </span>
+                                    </a>
+                                    <a href="" class="btn btn-default btn-default btn-xs" ng-disabled="editDisabled || item.rejected" ng-click="reject($index)">
+                                        <span class="glyphicon glyphicon-remove">
+                                        </span>
+                                    </a>
+                                </div>
+                            </div><!-- buttons end -->
+                        </div>
+                        <div ng-switch-when="false" class="col-md-12 margin-bottom-10">
+                                    <!-- property name and URI and value name and URI-->
+                                    <div class=" panel-default">
+                                        <div class="panel-body panel-body-internal">
+                                            <div ng-hide="editMode">
+                                                <div class="col-sm-6">
+                                                    <h5>
+                                                        {{item.labrl}}
+                                                    </h5>
+                                                    <small>
+                                                        {{item.uri}}
+                                                    </small>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <h5>
+                                                        {{item.value}}
+                                                    </h5>
+                                                    <small>
+                                                        {{item.value_uri}}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div ng-show="editMode">
+                                                <div class="col-sm-6" >
+                                                    <div class="panel-heading custom-panel-heading">
+                                                        {{'new-enty-class' | translate}}
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <input name="property" type="text" placeholder="{{'new-enty-class' | translate}}" ng-model="item.selected" typeahead="class as class.labrl for class in classes | filter:$viewValue | limitTo:8" typeahead-editable="false" typeahead-template-url="views/class_list_item_template.html" class="form-control" ng-hide="mobileView">
+                                    
+                                                        <select name="property" class="form-control" ng-model="item.selected" ng-options="class.labrl for class in classes" ng-show="mobileView" required>
+                                                            <!-- <option value="" disabled>{{'new-enty-class' | translate}}</option> -->
+                                                        </select>
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                                <div class="col-sm-6" ng-show="editMode" >
+                                                    <div class="panel-heading custom-panel-heading">
+                                                        {{'new-enty-name' | translate}}
+                                                    </div>
+                                                    <div class="panel-body"> 
+                                                        <form class="form" >
+                                                            <div class="form-group">
+                                                                  <input class="form-control" ng-model="item.selected.value" id="focusedInput" value="{{item.selected.name}}" type="text">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="panel-footer custom-panel-footer">
+                                                        <div class="pull-right">
+                                                            <a href="" class="btn btn-default btn-primary " ng-click="saveChanges($index)">
+                                                                {{'save' | translate}}
+                                                            </a>
+                                                            <a href="" class="btn btn-default btn-default " ng-click="toggleEditMode()">
+                                                                {{'cancel' | translate}}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer custom-panel-footer">
+                                            <div class="pull-right">
+                                                <span ng-show="loading" class="glyphicon glyphicon-refresh spin"></span>
+                                                <a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled" ng-click="toggleEditMode()">
+                                                    <span class="glyphicon glyphicon-edit">
+                                                    </span>
+                                                </a>
+                                                <a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled" ng-click="confirm($index)">
+                                                    <span class="glyphicon glyphicon-ok">
+                                                    </span>
+                                                </a>
+                                                <a href="" class="btn btn-default btn-default btn-xs" ng-disabled="editDisabled || item.rejected" ng-click="reject($index)">
+                                                    <span class="glyphicon glyphicon-remove">
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div><!-- property end -->
+                    </div>
+                    <div class="col-sm-12">
+                                <div ng-if="typeOf(item.properties) != 'undefined'">
+                                    
+                                    <!-- sub properties -->
+
+                                    <accordion-group ng-repeat="prop in item.properties"  class="margin-bottom-10" is-open="prop.open" ng-class="{'panel-success': prop.confirmed && !prop.rejected, 'panel-primary': prop.rejected && !prop.confirmed, 'pending': !prop.rejected && !prop.confirmed}">
+                                        <accordion-heading>
+                                           {{prop.labrl}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': prop.open, 'glyphicon-chevron-right': !prop.open}"></i>
+                                        </accordion-heading>
+                                        <div ng-controller="ItemCtrl" class="col-md-12 margin-bottom-10">
+                                            <div class=" panel-default">
+                                                <div class="panel-body panel-body-internal">
+                                                    <div class="col-sm-6">
+
+                                                        <h5>
+                                                            Property Name
+                                                        </h5>
+                                                        <small>
+                                                            Property URI
+                                                        </small>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <h5>
+                                                            Property value
+                                                        </h5>
+                                                        <small>
+                                                            Possible property value URI
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-footer custom-panel-footer">
+                                                    <div class="pull-right">
+                                                        <span ng-show="loading" class="glyphicon glyphicon-refresh spin"></span>
+                                                        <a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled" ng-click="">
+                                                            <span class="glyphicon glyphicon-edit">
+                                                            </span>
+                                                        </a>
+                                                        <a href="" class="btn btn-default btn-primary btn-xs" ng-disabled="editDisabled || item.rejected" ng-click="confirmNested($parent.$parent.$parent.$index,$index)">
+                                                            <span class="glyphicon glyphicon-ok">
+                                                            </span>
+                                                        </a>
+                                                        <a href="" class="btn btn-default btn-default btn-xs" ng-disabled="editDisabled || prop.rejected" ng-click="rejectNested($parent.$parent.$parent.$index,$index)">
+                                                            <span class="glyphicon glyphicon-remove">
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </accordion-group>
+                                </div><!-- sub properties end -->
+                    </div>
+                    </div>
+                </accordion-group>
+              </accordion>
+        </div>
+    </div>
+</div>

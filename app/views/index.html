@@ -1,0 +1,20 @@
+<div class="row">
+	<div class="col-sm-10 col-lg-10">
+		<input ng-model="searchVal" class="form-control form-control-custom" id="search" placeholder="{{'search'|translate}}" type="text">
+	</div>
+	<div class="col-sm-2 col-lg-2">
+		<a href="" class="btn btn-default btn-primary " ng-click="search()">
+			Search
+		</a>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row top-buffer">
+		<div preserve-order masonry="{gutter: 5}">
+	    	<div class="masonry-brick" ng-repeat="brick in bricks">
+	    		<img ng-src="{{ brick.imageUrl }}" alt="{{brick.label}}" />
+				<a ng-href="/#/view/{{brick.uri}}"><p>{{brick.label | capitalize}}</p></a>
+	    	</div>
+		</div>
+	</div>
+</div>

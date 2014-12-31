@@ -1,0 +1,103 @@
+<div class="container-fluid">
+	<div class="row">
+	    <div class="col-lg-12">
+	        <h1 class="page-header">User</h1>
+	    </div>
+	</div>
+	<div class="row">
+	    <div class="col-lg-12">
+              <accordion close-others="oneAtATime">
+                <accordion-group class="margin-bottom-10" is-open="entity1.open">
+                    <accordion-heading>
+                       Entity
+                       <div class="pull-right">
+                       		
+	                       <i class="glyphicon" ng-class="{'glyphicon-chevron-down': entity1.open, 'glyphicon-chevron-right': !entity1.open}"></i>
+                       </div>
+                       
+                    </accordion-heading>
+                    <div class="col-sm-12 margin-bottom-10">
+                    	<div class="col-sm-4">
+                    		Entity URI
+                    	</div>
+                    	<div class="col-sm-8">
+                    		Entity Name
+                    	</div>
+                    </div>
+                    <div class="col-sm-12">
+	                        <accordion-group class="margin-bottom-10" is-open="entity2.open">
+			                    <accordion-heading>
+			                       Property<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': entity2.open, 'glyphicon-chevron-right': !entity2.open}"></i>
+			                    </accordion-heading>
+			                    <div class="col-md-12 margin-bottom-10">
+			                    	<div class="col-sm-4">
+			                    		<h5>
+			                    			Property Name
+			                    		</h5>
+			                    		<small>
+			                    			Property URI
+			                    		</small>
+			                    	</div>
+			                    	<div class="col-sm-8">
+			                    		<h5>
+			                    			Property value
+			                    		</h5>
+			                    		<small>
+			                    			Possible property value URI
+			                    		</small>
+			                    	</div>
+                    			</div>
+			                </accordion-group>
+			                <accordion-group class="margin-bottom-10" is-open="entity4.open">
+			                    <accordion-heading>
+			                       Property<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': entity4.open, 'glyphicon-chevron-right': !entity4.open}"></i>
+			                    </accordion-heading>
+			                    <div class="col-md-12 margin-bottom-10">
+			                    	<div class="col-sm-4">
+			                    		<h5>
+			                    			Property Name
+			                    		</h5>
+			                    		<small>
+			                    			Property URI
+			                    		</small>
+			                    	</div>
+			                    	<div class="col-sm-8">
+			                    		<h5>
+			                    			Property value
+			                    		</h5>
+			                    		<small>
+			                    			Possible property value URI
+			                    		</small>
+			                    	</div>
+                    			</div>
+			                </accordion-group>
+			        </div>
+                </accordion-group>
+                <accordion-group is-open="entity3.open">
+                    <accordion-heading>
+                       Property<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': entity3.open, 'glyphicon-chevron-right': !entity3.open}"></i>
+                    </accordion-heading>
+                    <div class="col-md-12 margin-bottom-10">
+			                    	<div class="col-sm-4">
+			                    		<h5>
+			                    			Property Name
+			                    		</h5>
+			                    		<small>
+			                    			Property URI
+			                    		</small>
+			                    	</div>
+			                    	<div class="col-sm-8">
+			                    		<h5>
+			                    			Property value
+			                    		</h5>
+			                    		<small>
+			                    			Possible property value URI
+			                    		</small>
+			                    	</div>
+                    			</div>
+                </accordion-group>
+                                
+              </accordion>
+	    </div>
+	</div>
+</div>

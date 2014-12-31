@@ -1,0 +1,24 @@
+<div class="row">
+	<div class="col-sm-10 col-lg-10">
+		<input ng-model="searchVal" class="form-control form-control-custom" id="search" placeholder="{{'search'|translate}}" type="text">
+	</div>
+	<div class="col-sm-2 col-lg-2">
+		<button class="btn btn-default btn-primary " ng-click="search()">
+			Search
+		</button>
+	</div>
+
+	<div style="padding-top:25px;" class="col-sm-10 col-lg-10">
+		
+		<textarea ng-model="queryString" cols="90" rows="20"></textarea>
+		<div class="col-sm-2 col-lg-2 pull-right">
+		<button class="btn btn-default btn-primary " ng-click="perform()">
+			Perform Query
+		</button>
+		</div>
+	</div>
+	<div style="padding-top:25px;" class="col-sm-12 col-lg-12">
+	<leaflet style="height:700px !important;" class="map" center="center" markers="markers" layers="layers" defaults="defaults"></leaflet>
+	</div>
+
+</div>
